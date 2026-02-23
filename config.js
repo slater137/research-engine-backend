@@ -2,14 +2,20 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+function normalizeOrigin(origin) {
+  return `${origin || ""}`
+    .trim()
+    .replace(/\/$/, "");
+}
+
 const defaultOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173"
-];
+].map(normalizeOrigin);
 
 const configuredOrigins = (process.env.FRONTEND_ORIGINS || "")
   .split(",")
-  .map((origin) => origin.trim())
+  .map(normalizeOrigin)
   .filter(Boolean);
 
 export const config = {
